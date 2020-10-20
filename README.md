@@ -1,10 +1,5 @@
 # Mips
 
-A fazer:             
-ACABO PORAAAAAAAAAAAAAAAA
-  
-Sendo Feito(arquivos em desenvolvimento/não upados):  
-
 Feito(apenas considerar arquivos já upados):  
 control    
 alu_32bit  
@@ -19,3 +14,5 @@ bank_reg_32x32bit
 mux_2x1_32bit (Dentro do bak_reg)
 mux_2x1_5bit
 data_memory    
+
+Necessário implementar JAL e JR
