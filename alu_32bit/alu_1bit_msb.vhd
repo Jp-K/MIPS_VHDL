@@ -1,0 +1,72 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity alu_1bit_msb is
+port(
+  i_Operation : in std_logic_vector(1 downto 0);
+  i_invB : in std_logic;
+  i_A,i_B : in std_logic;
+  i_CarryIn :in std_logic;
+  i_Less : in std_logic;
+  o_Result : out std_logic;
+  o_Set : out std_logic;
+  o_Overflow : out std_logic);
+end alu_1bit_msb;
+
+architecture arch1 of alu_1bit_msb is
+  
+  signal w_connector_0 : std_logic;
+  signal w_connector_1 : std_logic;
+  signal w_connector_2 : std_logic;
+  signal w_connector_3 : std_logic;
+  
+  signal w_connector_4 : std_logic;
+  signal w_connector_5 : std_logic;
+  
+  component mux_4x1_1bit is
+  port(
+    i_sel : in std_logic_vector(1 downto 0);
+    i_A,i_B,i_C,i_D : in std_logic;
+    o_S : out std_logic);
+  end component;
+  
+  component full_adder is
+  port(
+    i_Cin : in std_logic;
+	 i_A : in std_logic;
+	 i_B : in std_logic;
+	 o_S : out std_logic;
+	 o_Cout : out std_logic);
+  end component;
+  
+  
+  
+  begin 
+  
+    w_connector_0 <= (i_invB xor i_B);
+    w_connector_1 <= (i_A and i_B);
+    w_connector_2 <= (i_A or i_B);
+    
+    
+    u_full_adder : full_adder port map(
+      i_Cin =>i_CarryIn,
+  	   i_A =>i_A,
+  	   i_B =>w_connector_0,
+  	   o_S =>w_connector_3,
+  	   o_Cout =>w_connector_4
+    );
+    
+	 
+    u_mux_4x1_1bit : mux_4x1_1bit port map(
+      i_sel => i_Operation,
+      i_A => w_connector_1,
+      i_B => w_connector_2,
+      i_C => w_connector_3,
+      i_D => i_Less,
+      o_S => o_Result
+    );
+	 
+	 o_Set<=w_connector_3;
+	 o_Overflow<=(i_Operation(1) and (w_connector_4 xor i_CarryIn));
+	 
+end arch1;

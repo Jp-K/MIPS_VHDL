@@ -1,0 +1,45 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity alu_32bit is
+  port(
+    i_Operation in : std_logic_vector(1 downto 0);
+	 i_A in : std_logic_vector(31 downto 0);
+	 i_B in : std_logic_vector(31 downto 0);
+	 i_InvB in : std_logic;
+	 o_Result out : std_logic_vector(31 downto 0)
+	 o_Zero out: std_logic;
+	 o_Overflow out: std_logic
+	 );
+  end alu_32bit;
+
+architecture GEN of alu_32bit is:
+  
+  component alu_1bit is
+  port(
+    i_Operation : in std_logic_vector(1 downto 0);
+    i_invB : in std_logic;
+    i_A,i_B : in std_logic;
+    i_CarryIn :in std_logic;
+    i_Less : in std_logic;
+    o_Result : out std_logic;
+    o_CarryOut : out std_logic
+	 );
+  end component;
+  
+  begin
+    
+	 GEN_alu_1bit:
+    for I in 0 to 31 generate
+    u_alu_1bit : alu_1bit port map(
+      i_Operation 
+      i_invB 
+      i_A,i_B 
+      i_CarryIn 
+      i_Less 
+      o_Result 
+      o_CarryOut 
+    );
+end GEN;
+
+  
